@@ -752,7 +752,7 @@
     </style>
 </head>
 <body>
-    <div class="max-w-md w-full">
+    <div class="max-w-md w-full px-4">
         <!-- Welcome Screen -->
         <div id="welcome-screen" class="bg-white rounded-xl shadow-xl p-6 text-center">
             <h1 class="text-3xl font-bold birthday-title mb-4">Birthday Card Creator</h1>
@@ -1250,10 +1250,10 @@
                 cardData.message = decryptParam(message);
                 cardData.question = decryptParam(question);
                 cardData.answer = decryptParam(answer);
-                console.log('Decrypted name:', cardData.name);
-                console.log('Decrypted message:', cardData.message);
-                console.log('Decrypted question:', cardData.question);
-                console.log('Decrypted answer:', cardData.answer);
+              //  console.log('Decrypted name:', cardData.name);
+              //  console.log('Decrypted message:', cardData.message);
+              //  console.log('Decrypted question:', cardData.question);
+              //  console.log('Decrypted answer:', cardData.answer);
                 birthdayMessage.textContent = `Happy Birthday, ${cardData.name}!`;
                 questionDisplay.textContent = cardData.question;
                 welcomeScreen.classList.add('hidden');
