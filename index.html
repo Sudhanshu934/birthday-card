@@ -100,7 +100,7 @@
             50% { filter: drop-shadow(0 0 20px rgba(255, 209, 220, 0.9)); transform: scale(1.05); }
         }
 
-        /* --- NEW: Aggressive Shake & Glow for Phase 1 --- */
+        /* --- Aggressive Shake & Glow for Phase 1 --- */
         @keyframes giftShake {
             0% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 10px rgba(255, 209, 220, 0.8)); }
             10%, 30%, 50%, 70%, 90% { transform: rotate(-3deg) scale(1.1); filter: drop-shadow(0 0 40px rgba(255, 255, 255, 1)); }
@@ -244,7 +244,48 @@
 <body class="text-slate-800 antialiased min-h-screen flex flex-col items-center justify-center p-4 select-none">
 
     <!-- ==========================================
-         NEW: The Flash Overlay (Phase 2 & 3 Climax)
+         NEW: Creator Mode Generator Tool (Hidden by default)
+         Access by adding ?create=true to the URL
+         ========================================== -->
+    <div id="creator-mode" class="hidden fixed inset-0 z-[200] bg-slate-50 flex flex-col items-center justify-center p-6">
+        <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-sm border border-slate-100 relative overflow-hidden">
+            <!-- Decorative corner elements -->
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-100 rounded-full mix-blend-multiply opacity-50"></div>
+            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-100 rounded-full mix-blend-multiply opacity-50"></div>
+            
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center relative z-10 flex items-center justify-center gap-2">
+                <span>🎁</span> Link Generator
+            </h2>
+            
+            <div class="space-y-5 relative z-10">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-600 mb-1.5 ml-1">Birthday Person's Name</label>
+                    <input type="text" id="gen-name" placeholder="e.g. Ramesh" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-600 mb-1.5 ml-1">Date (Optional)</label>
+                    <input type="text" id="gen-date" placeholder="e.g. 01-Janurary" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all">
+                </div>
+                <button onclick="generateSecretLink()" class="w-full py-3.5 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700 hover:-translate-y-0.5 shadow-lg hover:shadow-xl transition-all mt-4">
+                    Generate Secret Link ✨
+                </button>
+            </div>
+            
+            <div id="result-area" class="hidden mt-8 pt-6 border-t border-slate-100 relative z-10">
+                <label class="block text-sm font-semibold text-emerald-600 mb-2 ml-1">Your Secret Link is Ready!</label>
+                <div class="flex shadow-sm rounded-xl overflow-hidden border border-emerald-200">
+                    <input type="text" id="gen-result" readonly class="w-full px-3 py-3 bg-emerald-50 text-[11px] text-slate-600 focus:outline-none font-mono">
+                    <button onclick="copySecretLink()" id="copy-btn" class="px-5 bg-emerald-500 text-white font-bold hover:bg-emerald-600 transition-colors">Copy</button>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-3 text-center">Their name is now securely hidden in the URL.</p>
+            </div>
+        </div>
+        <button onclick="window.location.href=window.location.href.split('?')[0]" class="mt-6 text-sm text-slate-500 hover:text-slate-800 font-medium underline decoration-slate-300">Close Generator</button>
+    </div>
+
+
+    <!-- ==========================================
+         The Flash Overlay (Phase 2 & 3 Climax)
          ========================================== -->
     <div id="flash-overlay" class="fixed inset-0 bg-white opacity-0 pointer-events-none z-[150] transition-opacity duration-700"></div>
 
@@ -255,15 +296,10 @@
         <h3 class="text-2xl font-bold text-slate-800 mb-12">Opening WhatsApp...</h3>
         
         <div class="flex items-center w-full max-w-[280px] relative h-20">
-            <!-- Dotted Line Path -->
             <div class="w-full h-0 border-b-4 border-dashed border-slate-300 absolute inset-y-0 my-auto z-0 rounded-full"></div>
-
-            <!-- Paper Airplane -->
             <div id="paper-plane" class="absolute left-0 inset-y-0 my-auto w-12 h-12 flex items-center justify-center z-20" style="transform: translateX(0) scale(1) rotate(0deg);">
                 <svg class="w-10 h-10 text-slate-700 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </div>
-
-            <!-- WhatsApp Icon (Target) -->
             <div id="wa-target-icon" class="absolute right-0 inset-y-0 my-auto w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center wa-pulse z-10 transition-transform duration-300">
                 <svg class="w-9 h-9 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.88-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.347-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.299 1.263.479 1.694.613.712.222 1.36.19 1.872.115.576-.084 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
             </div>
@@ -456,16 +492,38 @@
     </main>
 
     <script>
-        // --- Dynamic URL Configuration ---
-        // Allows links like: index.html?name=Rahul&date=12-march
+        // --- Dynamic URL Configuration & Creator Mode ---
+        // Allows links like: index.html?name=Rahul&date=12-march OR ?gift=base64
         const urlParams = new URLSearchParams(window.location.search);
         
-        // 1. Setup Name dynamically
-        const BIRTHDAY_PERSON = urlParams.get('name') || "Aditi"; 
+        // 1. Setup Creator Mode Visibility
+        if (urlParams.get('create') === 'true') {
+            document.getElementById('creator-mode').classList.remove('hidden');
+        }
+
+        // 2. Setup Name and Date dynamically (Secret vs Standard)
+        let BIRTHDAY_PERSON = "Aditi"; 
+        let dateParam = null;
+
+        const secretGift = urlParams.get('gift');
+        if (secretGift) {
+            try {
+                // Decode the Base64 string
+                const decodedObj = JSON.parse(atob(secretGift));
+                if (decodedObj.n) BIRTHDAY_PERSON = decodedObj.n;
+                if (decodedObj.d) dateParam = decodedObj.d;
+            } catch (e) {
+                console.error("Invalid secret link");
+            }
+        } else {
+            // Fallback to standard plain-text parameters
+            BIRTHDAY_PERSON = urlParams.get('name') || "Aditi"; 
+            dateParam = urlParams.get('date'); 
+        }
+
         document.getElementById('message-name').innerText = BIRTHDAY_PERSON;
 
-        // 2. Setup Cinematic Date dynamically based on URL (or default to today)
-        const dateParam = urlParams.get('date'); 
+        // 3. Setup Cinematic Date dynamically based on URL (or default to today)
         const today = new Date();
         
         let cineDayStr = today.getDate();
@@ -481,10 +539,58 @@
         document.getElementById('cine-day').innerText = cineDayStr;
         document.getElementById('cine-month').innerText = cineMonthStr;
 
-        // 3. Setup current Date for the receipt (always actual today)
+        // 4. Setup current Date for the receipt (always actual today)
         const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
         document.getElementById('current-date').innerText = today.toLocaleDateString('en-IN', dateOptions);
 
+        // --- Creator Mode Logic ---
+        function generateSecretLink() {
+            const nameInput = document.getElementById('gen-name');
+            const dateInput = document.getElementById('gen-date');
+            const nameVal = nameInput.value.trim();
+            const dateVal = dateInput.value.trim();
+            
+            if (!nameVal) {
+                // Briefly flash red if they try to generate without a name
+                nameInput.classList.add('ring-2', 'ring-red-500');
+                setTimeout(() => nameInput.classList.remove('ring-2', 'ring-red-500'), 1500);
+                return;
+            }
+            
+            const dataObj = { n: nameVal };
+            if (dateVal) dataObj.d = dateVal;
+            
+            // Encode to base64
+            const encodedData = btoa(JSON.stringify(dataObj));
+            
+            // Build URL (removes the ?create=true part)
+            const baseUrl = window.location.href.split('?')[0];
+            const secretUrl = `${baseUrl}?gift=${encodedData}`;
+            
+            // Display result
+            document.getElementById('result-area').classList.remove('hidden');
+            document.getElementById('gen-result').value = secretUrl;
+        }
+
+        function copySecretLink() {
+            const copyText = document.getElementById('gen-result');
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* For mobile */
+            
+            try {
+                // Fallback command suitable for iframe restrictions
+                document.execCommand("copy");
+                const btn = document.getElementById('copy-btn');
+                btn.innerText = "Copied!";
+                btn.classList.replace('bg-emerald-500', 'bg-slate-800');
+                setTimeout(() => {
+                    btn.innerText = "Copy";
+                    btn.classList.replace('bg-slate-800', 'bg-emerald-500');
+                }, 2000);
+            } catch (err) {
+                console.error("Failed to copy", err);
+            }
+        }
 
         // --- WhatsApp Flight Animation Logic ---
         function triggerWhatsApp(e) {
