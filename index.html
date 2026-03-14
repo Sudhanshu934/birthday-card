@@ -5,40 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Your Birthday Shagun!</title>
     
-    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎁</text></svg>">
 
-    <!-- Open Graph Meta Tags for WhatsApp/Social Media Previews -->
-    <meta property="og:title" content="A Special Birthday Shagun For You! 🎁">
-    <meta property="og:description" content="Tap to open your digital Lifafa and scratch the card inside to reveal your surprise!">
-    <meta property="og:image" content="https://e3f1660d56760abcbb9b968a56188847.cdn.bubble.io/f1773334947137x692390663365803300/birthdaybanner.webp?q=80&w=800&auto=format&fit=crop">
-    <meta property="og:type" content="website">
-    <meta name="theme-color" content="#FFD1DC">
-    
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts for professional typography -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Canvas Confetti for the celebration effect -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], },
                     colors: {
                         pastel: {
-                            pink: '#FFD1DC',
-                            blue: '#BDE0FE',
-                            purple: '#E2D1F9',
-                            yellow: '#FEF9C3',
-                            green: '#D8F8E1',
-                            orange: '#FFD8B1'
+                            pink: '#FFD1DC', blue: '#BDE0FE', purple: '#E2D1F9',
+                            yellow: '#FEF9C3', green: '#D8F8E1', orange: '#FFD8B1'
                         }
                     },
                     boxShadow: {
@@ -53,68 +34,35 @@
     <style>
         body {
             background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            background-color: #f8fafc;
             overscroll-behavior-y: none; 
             -webkit-tap-highlight-color: transparent;
         }
 
         /* Smooth Step Transitions */
-        .step-container {
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-        }
+        .step-container { transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; }
+        .step-hidden { opacity: 0; pointer-events: none; position: absolute; transform: scale(0.95) translateY(10px); visibility: hidden; }
+        .step-visible { opacity: 1; pointer-events: auto; position: relative; transform: scale(1) translateY(0); visibility: visible; }
+
+        /* General Animations */
+        .animate-bounce-slow { animation: bounceSlow 3s infinite ease-in-out; }
+        @keyframes bounceSlow { 0%, 100% { transform: translateY(-5%); } 50% { transform: translateY(5%); } }
         
-        .step-hidden {
-            opacity: 0;
-            pointer-events: none;
-            position: absolute;
-            transform: scale(0.95) translateY(10px);
-            visibility: hidden;
-        }
-        
-        .step-visible {
-            opacity: 1;
-            pointer-events: auto;
-            position: relative;
-            transform: scale(1) translateY(0);
-            visibility: visible;
-        }
-
-        /* SVG Animations */
-        .animate-bounce-slow {
-            animation: bounceSlow 3s infinite ease-in-out;
-        }
-        @keyframes bounceSlow {
-            0%, 100% { transform: translateY(-5%); }
-            50% { transform: translateY(5%); }
-        }
-
-        .animate-spin-slow {
-            animation: spin 4s linear infinite;
-        }
-
-        .animate-pulse-glow {
-            animation: pulseGlow 2s infinite;
-        }
+        .animate-pulse-glow { animation: pulseGlow 2s infinite; }
         @keyframes pulseGlow {
             0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 209, 220, 0.6)); transform: scale(1); }
             50% { filter: drop-shadow(0 0 20px rgba(255, 209, 220, 0.9)); transform: scale(1.05); }
         }
 
-        /* --- Aggressive Shake & Glow for Phase 1 --- */
+        /* Phase 1 Gift Animations */
         @keyframes giftShake {
             0% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 10px rgba(255, 209, 220, 0.8)); }
             10%, 30%, 50%, 70%, 90% { transform: rotate(-3deg) scale(1.1); filter: drop-shadow(0 0 40px rgba(255, 255, 255, 1)); }
             20%, 40%, 60%, 80% { transform: rotate(3deg) scale(1.1); filter: drop-shadow(0 0 40px rgba(255, 255, 255, 1)); }
             100% { transform: rotate(0deg) scale(1.15); filter: drop-shadow(0 0 50px rgba(255, 255, 255, 1)); }
         }
-        .animate-gift-shake {
-            animation: giftShake 1.2s cubic-bezier(.36,.07,.19,.97) both;
-        }
+        .animate-gift-shake { animation: giftShake 1.2s cubic-bezier(.36,.07,.19,.97) both; }
 
-        /* Floating Blob Animation for background */
-        .animate-blob {
-            animation: blob 7s infinite alternate ease-in-out;
-        }
+        .animate-blob { animation: blob 7s infinite alternate ease-in-out; }
         @keyframes blob {
             0% { transform: translate(0px, 0px) scale(1); }
             33% { transform: translate(30px, -50px) scale(1.1); }
@@ -122,98 +70,17 @@
             100% { transform: translate(0px, 0px) scale(1); }
         }
 
-        /* --- Magical Loading Star Animations --- */
-        .star-spin-outer {
-            animation: starSpin 4s linear infinite;
-            transform-origin: 50px 45px;
-        }
-        .star-spin-inner {
-            /* Spinning in reverse slightly faster creates a mesmerizing effect */
-            animation: starSpin 2.5s linear infinite reverse;
-            transform-origin: 50px 45px;
-        }
-        @keyframes starSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        /* 3D Flip Card CSS */
+        .scene { perspective: 1000px; }
+        .card-3d-wrap { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); transform-style: preserve-3d; }
+        .card-3d-wrap.is-flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 24px; background-color: white; }
+        .card-back { transform: rotateY(180deg); }
 
-        .star-core-beat {
-            animation: starCoreBeat 0.8s ease-in-out infinite alternate;
-            transform-origin: 50px 45px;
-        }
-        @keyframes starCoreBeat {
-            0% { transform: scale(0.9); filter: drop-shadow(0 0 4px rgba(189,224,254,0.6)); }
-            100% { transform: scale(1.2); filter: drop-shadow(0 0 12px rgba(189,224,254,1)); }
-        }
+        .reward-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; background: radial-gradient(circle at center, #ffffff 0%, #fef9c3 100%); z-index: 1; opacity: 0; transition: opacity 0.3s ease; }
+        canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; cursor: pointer; border-radius: 24px; transition: opacity 0.5s ease; }
 
-        /* --- Robust 3D Flip Card CSS --- */
-        .scene {
-            perspective: 1000px;
-        }
-        .card-3d-wrap {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform-style: preserve-3d;
-        }
-        .card-3d-wrap.is-flipped {
-            transform: rotateY(180deg);
-        }
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 24px;
-            background-color: white;
-        }
-        .card-back {
-            transform: rotateY(180deg);
-        }
-
-        .reward-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            text-align: center;
-            background: radial-gradient(circle at center, #ffffff 0%, #fef9c3 100%);
-            z-index: 1;
-            opacity: 0; 
-            transition: opacity 0.3s ease;
-        }
-
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            cursor: pointer;
-            border-radius: 24px;
-            transition: opacity 0.5s ease;
-        }
-
-        .scratch-hint {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            font-size: 2.5rem;
-            z-index: 3;
-            pointer-events: none;
-            animation: swipeHand 2s infinite ease-in-out;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
+        .scratch-hint { position: absolute; top: 50%; left: 50%; font-size: 2.5rem; z-index: 3; pointer-events: none; animation: swipeHand 2s infinite ease-in-out; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         @keyframes swipeHand {
             0% { transform: translate(-50%, -50%) rotate(0deg) translateX(-30px); opacity: 0; }
             20% { opacity: 1; }
@@ -221,42 +88,106 @@
             100% { opacity: 0; transform: translate(-50%, -50%) rotate(-15deg) translateX(30px); }
         }
 
-        /* Hot Samosa Smoke Animation */
         @keyframes smoke {
             0% { transform: translateY(0) scale(1); opacity: 0; }
             40% { opacity: 0.7; }
             100% { transform: translateY(-20px) scale(1.5); opacity: 0; }
         }
 
-        /* WhatsApp Flight Animation CSS */
-        #paper-plane {
-            transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); 
+        #paper-plane { transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .wa-pulse { animation: waPulse 1.5s infinite alternate; }
+        @keyframes waPulse { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); } 100% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } }
+
+        /* ==========================================
+           🌟 ADVANCED BIRD ANIMATIONS
+           ========================================== */
+        @keyframes flapFast { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-40deg); } }
+        @keyframes flapSlow { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-15deg); } }
+
+        .wing-fast { transform-origin: 35px 50px; animation: flapFast 0.15s infinite; }
+        .wing-slow { transform-origin: 35px 50px; animation: flapSlow 1.5s ease-in-out infinite; }
+        .always-fast { transform-origin: 35px 50px; animation: flapFast 0.15s infinite; }
+
+        @keyframes flyAcross {
+            0% { transform: translate(-100px, 50px) rotate(-10deg) scale(0.9); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translate(50vw, -20px) rotate(10deg) scale(1); }
+            90% { opacity: 1; }
+            100% { transform: translate(120vw, 50px) rotate(-10deg) scale(0.9); opacity: 0; }
         }
-        .wa-pulse {
-            animation: waPulse 1.5s infinite alternate;
+        .bird-fly-across { animation: flyAcross 5s linear forwards; }
+
+        /* FIXED: Bird 3: Flitting between sides on the scratch card (Wrapper rotates only, SVG flips) */
+        .pos-right { transform: translateX(130px) rotate(12deg); }
+        .pos-left { transform: translateX(-130px) rotate(-12deg); }
+        .svg-flip-x { transform: scaleX(-1); }
+        .svg-unflip-x { transform: scaleX(1); }
+
+        /* Bird 4: Fly onto the LEFT side of the Receipt Card */
+        @keyframes flyToCardLeft {
+            0% { transform: translate(120px, -150px) rotate(20deg) scale(0.8); opacity: 0; }
+            20% { opacity: 1; }
+            50% { transform: translate(10px, -20px) rotate(-10deg) scale(1.1); }
+            80% { transform: translate(-5px, -5px) rotate(5deg) scale(0.95); }
+            100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
         }
-        @keyframes waPulse {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
-            100% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+        .bird-fly-in-left {
+            animation: flyToCardLeft 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            opacity: 0;
+        }
+
+        /* Float notes */
+        @keyframes floatNote {
+            0% { opacity: 0; transform: translate(0, 0) scale(0.5) rotate(-10deg); }
+            20% { opacity: 1; transform: translate(var(--tx), -15px) scale(1.2) rotate(10deg); }
+            100% { opacity: 0; transform: translate(calc(var(--tx) * 2), -40px) scale(0.8) rotate(-20deg); }
+        }
+        .music-note { animation: floatNote 2s ease-out forwards; }
+
+/* RESTORED: Magical Loading Star Animations */
+.star-spin-outer { animation: starSpin 4s linear infinite; transform-origin: 50px 45px; }
+.star-spin-inner { animation: starSpin 2.5s linear infinite reverse; transform-origin: 50px 45px; }
+@keyframes starSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.star-core-beat { animation: starCoreBeat 0.8s ease-in-out infinite alternate; transform-origin: 50px 45px; }
+@keyframes starCoreBeat { 
+    0% { transform: scale(0.9); filter: drop-shadow(0 0 4px rgba(189,224,254,0.6)); } 
+    100% { transform: scale(1.2); filter: drop-shadow(0 0 12px rgba(189,224,254,1)); } 
+}
+
+   /* --- PLAYFUL & FESTIVE MICRO-INTERACTIONS --- */
+
+        /* 1. Continuous smooth shimmer for the text */
+        .text-shimmer {
+            background: linear-gradient(
+                110deg, 
+                #ec4899 0%,   /* Pink */
+                #a855f7 25%,  /* Purple */
+                #f43f5e 50%,  /* Rose */
+                #a855f7 75%,  /* Purple */
+                #ec4899 100%  /* Pink */
+            );
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: textShine 3s linear infinite;
+        }
+
+        /* --- KEYFRAMES --- */
+        @keyframes textShine {
+            to { background-position: -200% center; }
         }
     </style>
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex flex-col items-center justify-center p-4 select-none">
 
-    <!-- ==========================================
-         NEW: Creator Mode Generator Tool (Hidden by default)
-         Access by adding ?create=true to the URL
-         ========================================== -->
+    <!-- Generator UI is hidden unless ?create=true is in URL -->
     <div id="creator-mode" class="hidden fixed inset-0 z-[200] bg-slate-50 flex flex-col items-center justify-center p-6">
         <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-sm border border-slate-100 relative overflow-hidden">
-            <!-- Decorative corner elements -->
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-100 rounded-full mix-blend-multiply opacity-50"></div>
             <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-100 rounded-full mix-blend-multiply opacity-50"></div>
-            
-            <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center relative z-10 flex items-center justify-center gap-2">
-                <span>🎁</span> Link Generator
-            </h2>
-            
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center relative z-10 flex items-center justify-center gap-2"><span>🎁</span> Link Generator</h2>
             <div class="space-y-5 relative z-10">
                 <div>
                     <label class="block text-sm font-semibold text-slate-600 mb-1.5 ml-1">Birthday Person's Name</label>
@@ -266,11 +197,8 @@
                     <label class="block text-sm font-semibold text-slate-600 mb-1.5 ml-1">Date (Optional)</label>
                     <input type="text" id="gen-date" placeholder="e.g. 01-Janurary" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all">
                 </div>
-                <button onclick="generateSecretLink()" class="w-full py-3.5 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700 hover:-translate-y-0.5 shadow-lg hover:shadow-xl transition-all mt-4">
-                    Generate Secret Link ✨
-                </button>
+                <button onclick="generateSecretLink()" class="w-full py-3.5 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700 hover:-translate-y-0.5 shadow-lg hover:shadow-xl transition-all mt-4">Generate Secret Link ✨</button>
             </div>
-            
             <div id="result-area" class="hidden mt-8 pt-6 border-t border-slate-100 relative z-10">
                 <label class="block text-sm font-semibold text-emerald-600 mb-2 ml-1">Your Secret Link is Ready!</label>
                 <div class="flex shadow-sm rounded-xl overflow-hidden border border-emerald-200">
@@ -283,18 +211,11 @@
         <button onclick="window.location.href=window.location.href.split('?')[0]" class="mt-6 text-sm text-slate-500 hover:text-slate-800 font-medium underline decoration-slate-300">Close Generator</button>
     </div>
 
-
-    <!-- ==========================================
-         The Flash Overlay (Phase 2 & 3 Climax)
-         ========================================== -->
+    <!-- Screen Overlays -->
     <div id="flash-overlay" class="fixed inset-0 bg-white opacity-0 pointer-events-none z-[150] transition-opacity duration-700"></div>
 
-    <!-- ==========================================
-         WhatsApp Redirection Animation Overlay
-         ========================================== -->
     <div id="wa-animation-overlay" class="fixed inset-0 z-[100] bg-white/95 backdrop-blur-xl flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
         <h3 class="text-2xl font-bold text-slate-800 mb-12">Opening WhatsApp...</h3>
-        
         <div class="flex items-center w-full max-w-[280px] relative h-20">
             <div class="w-full h-0 border-b-4 border-dashed border-slate-300 absolute inset-y-0 my-auto z-0 rounded-full"></div>
             <div id="paper-plane" class="absolute left-0 inset-y-0 my-auto w-12 h-12 flex items-center justify-center z-20" style="transform: translateX(0) scale(1) rotate(0deg);">
@@ -304,15 +225,26 @@
                 <svg class="w-9 h-9 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.88-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.347-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.299 1.263.479 1.694.613.712.222 1.36.19 1.872.115.576-.084 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
             </div>
         </div>
-        
         <p class="text-slate-500 mt-12 font-medium animate-pulse text-sm">Getting your message ready...</p>
     </div>
 
-    <!-- ==========================================
-         STEP 0: Cinematic Date Reveal
-         ========================================== -->
+    <!-- STEP 0: Cinematic Date Reveal -->
     <div id="step-0" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/70 backdrop-blur-sm transition-all duration-1000 overflow-hidden">
         
+        <!-- BIRD 1: Carrying the Shagun Envelope across the screen -->
+        <div class="absolute top-[25%] left-0 w-16 h-16 bird-fly-across z-50">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full drop-shadow-lg">
+                <path d="M 25 50 C 25 25, 75 25, 75 55 C 75 75, 50 80, 25 70 Z" fill="#BDE0FE" />
+                <path d="M 35 55 C 45 70, 65 70, 70 55 C 65 65, 45 65, 35 55 Z" fill="#E2D1F9" />
+                <g class="wing-fast"><path d="M 35 50 C 15 50, 10 35, 35 38 Z" fill="#A2D2FF" /></g>
+                <circle cx="62" cy="40" r="4.5" fill="#0f172a" /><circle cx="63.5" cy="38.5" r="1.5" fill="#ffffff" />
+                <circle cx="68" cy="48" r="4" fill="#FFD1DC" opacity="0.8"/>
+                <path d="M 72 42 L 85 45 L 72 49 Z" fill="#FACC15" />
+                <rect x="75" y="44" width="12" height="8" fill="#f43f5e" rx="1" transform="rotate(15 75 44)" />
+                <path d="M 75 44 L 81 48 L 87 44" stroke="#fda4af" stroke-width="1" fill="none" transform="rotate(15 75 44)" />
+            </svg>
+        </div>
+
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="absolute top-[20%] left-[15%] text-4xl animate-pulse">✨</div>
             <div class="absolute top-[60%] left-[80%] text-5xl animate-bounce-slow" style="animation-delay: 1s;">🎈</div>
@@ -334,27 +266,39 @@
 
     <main class="w-full max-w-md mx-auto relative z-10 min-h-[500px] flex flex-col items-center justify-center">
 
-        <!-- ==========================================
-             STEP 1: The Invitation / Gift
-             ========================================== -->
-        <div id="step-1" class="step-container step-hidden w-full text-center px-4">
-            <div class="inline-flex items-center justify-center space-x-2 bg-white px-5 py-2 rounded-full shadow-soft mb-6">
+        <!-- STEP 1: The Invitation / Gift -->
+<div id="step-1" class="step-container step-hidden w-full text-center px-4">
+            
+            <div class="relative inline-flex items-center justify-center space-x-2 bg-white px-5 py-2 rounded-full shadow-soft mb-6">
                 <span class="text-xl">🙏</span>
                 <span class="font-semibold text-sm text-pink-500 tracking-wide">NAMASTE</span>
-            </div>
-            
-            <h1 class="text-3xl font-bold text-slate-800 mb-2 leading-tight">A Special Delivery <br>Just For You!</h1>
-            <p class="text-slate-500 text-base mb-10"><span class="font-bold text-slate-700">Sudhanshu,</span> sent you a surprise birthday <i>Lifafa</i>.</p>
+                
+                <div id="bird-gift" class="absolute -top-[35px] -left-3 w-12 h-12 z-30 transition-all duration-[800ms] ease-out cursor-pointer" onclick="pokeBirdGift()">
+                    
+                    <div id="bubble-gift" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-max bg-white px-3 py-1.5 rounded-2xl shadow-xl border border-pink-100 opacity-0 scale-50 origin-bottom transition-all duration-300 pointer-events-none z-50">
+                        <p class="text-[11px] font-extrabold text-pink-500">Tap the box! 🎁</p>
+                        <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r border-pink-100 transform rotate-45"></div>
+                    </div>
 
-            <!-- Animated Gift Box SVG -->
-            <div id="gift-container" class="relative w-48 h-48 mx-auto mb-10 animate-bounce-slow cursor-pointer transition-all duration-300" onclick="goToStep2()">
-                <svg id="gift-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full animate-pulse-glow overflow-visible">
-                    <!-- Base (Separated) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full drop-shadow-md">
+                        <path d="M 40 70 L 40 85 M 50 72 L 50 85" stroke="#D9853B" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M 25 50 C 25 25, 75 25, 75 55 C 75 75, 50 80, 25 70 Z" fill="#BDE0FE" />
+                        <path d="M 35 55 C 45 70, 65 70, 70 55 C 65 65, 45 65, 35 55 Z" fill="#E2D1F9" />
+                        <g id="wing-gift" class="wing-slow"><path d="M 35 50 C 15 50, 10 35, 35 38 Z" fill="#A2D2FF" /></g>
+                        <circle cx="62" cy="40" r="4.5" fill="#0f172a" /><circle cx="63.5" cy="38.5" r="1.5" fill="#ffffff" />
+                        <circle cx="68" cy="48" r="4" fill="#FFD1DC" opacity="0.8"/>
+                        <path d="M 72 42 L 85 45 L 72 49 Z" fill="#FACC15" />
+                    </svg>
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-slate-800 mb-2 leading-tight">A Special Delivery <br>Just For You!</h1>
+            <p class="text-slate-500 text-base mb-10"><span class="font-bold text-slate-700">Sudhanshu,</span> sent you a <i>Mystery Box</i>.</p>
+
+            <div id="gift-container" class="relative w-48 h-48 mx-auto mb-10 animate-bounce-slow transition-all duration-300">
+                <svg id="gift-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full animate-pulse-glow overflow-visible cursor-pointer" onclick="goToStep2()">
                     <rect x="30" y="80" width="140" height="100" rx="8" fill="#FFD1DC"/>
                     <rect x="30" y="80" width="140" height="100" rx="8" fill="url(#paint0_linear)"/>
                     <rect x="85" y="80" width="30" height="100" fill="#BDE0FE"/>
-                    
-                    <!-- NEW: Lid + Bow grouped together for independent animation -->
                     <g id="gift-lid" class="transition-transform duration-[600ms] ease-out" style="transform-origin: 100px 60px;">
                         <rect x="20" y="60" width="160" height="30" rx="6" fill="#FFB6C1"/>
                         <rect x="20" y="60" width="160" height="30" rx="6" fill="url(#paint1_linear)"/>
@@ -363,29 +307,39 @@
                         <path d="M100 60 C120 20, 170 40, 120 60 Z" fill="#BDE0FE"/>
                         <circle cx="100" cy="60" r="10" fill="#A2D2FF"/>
                     </g>
-                    
                     <defs>
-                        <linearGradient id="paint0_linear" x1="100" y1="80" x2="100" y2="180" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="white" stop-opacity="0.2"/><stop offset="1" stop-color="black" stop-opacity="0.05"/>
-                        </linearGradient>
-                        <linearGradient id="paint1_linear" x1="100" y1="60" x2="100" y2="90" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="white" stop-opacity="0.3"/><stop offset="1" stop-color="black" stop-opacity="0.1"/>
-                        </linearGradient>
+                        <linearGradient id="paint0_linear" x1="100" y1="80" x2="100" y2="180" gradientUnits="userSpaceOnUse"><stop stop-color="white" stop-opacity="0.2"/><stop offset="1" stop-color="black" stop-opacity="0.05"/></linearGradient>
+                        <linearGradient id="paint1_linear" x1="100" y1="60" x2="100" y2="90" gradientUnits="userSpaceOnUse"><stop stop-color="white" stop-opacity="0.3"/><stop offset="1" stop-color="black" stop-opacity="0.1"/></linearGradient>
                     </defs>
                 </svg>
             </div>
 
-            <button onclick="goToStep2()" class="w-full max-w-[280px] py-4 rounded-2xl bg-gradient-to-r from-pink-400 to-purple-400 text-white font-bold text-lg shadow-[0_8px_20px_rgba(236,72,153,0.3)] hover:scale-105 transition-transform active:scale-95">
+            </div>
+      <!--      <button onclick="goToStep2()" class="w-full max-w-[280px] py-4 rounded-2xl bg-gradient-to-r from-pink-400 to-purple-400 text-white font-bold text-lg shadow-[0_8px_20px_rgba(236,72,153,0.3)] hover:scale-105 transition-transform active:scale-95">
                 Open Lifafa 💌
-            </button>
+            </button> -->
         </div>
 
+        <!-- STEP 2: Processing / Magic Loading -->
+        <div id="step-2" class="step-container step-hidden w-full text-center px-4 absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            
+            <!-- BIRD 2.5: Hovering in Loading Screen -->
+            <div id="bird-loading" class="absolute top-[25%] right-[15%] w-14 h-14 z-30 animate-[bounceSlow_2s_infinite] opacity-0 transition-opacity duration-500">
+                <div id="bubble-loading" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-max bg-white px-3 py-1.5 rounded-2xl shadow-xl border border-pink-100 opacity-0 scale-50 origin-bottom transition-all duration-300 z-50">
+                    <p class="text-[11px] font-extrabold text-blue-500">Adding magic! ✨</p>
+                    <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r border-pink-100 transform rotate-45"></div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full drop-shadow-md transform scale-x-[-1]">
+                    <path d="M 25 50 C 25 25, 75 25, 75 55 C 75 75, 50 80, 25 70 Z" fill="#BDE0FE" />
+                    <path d="M 35 55 C 45 70, 65 70, 70 55 C 65 65, 45 65, 35 55 Z" fill="#E2D1F9" />
+                    <g id="wing-loading" class="always-fast"><path d="M 35 50 C 15 50, 10 35, 35 38 Z" fill="#A2D2FF" /></g>
+                    <circle cx="62" cy="40" r="4.5" fill="#0f172a" /><circle cx="63.5" cy="38.5" r="1.5" fill="#ffffff" />
+                    <circle cx="68" cy="48" r="4" fill="#FFD1DC" opacity="0.8"/>
+                    <path d="M 72 42 L 85 45 L 72 49 Z" fill="#FACC15" />
+                </svg>
+            </div>
 
-        <!-- ==========================================
-             STEP 2: Processing / Magic Loading
-             ========================================== -->
-        <div id="step-2" class="step-container step-hidden w-full text-center px-4 absolute inset-0 flex flex-col items-center justify-center">
-            <div class="w-32 h-32 mx-auto mb-8">
+            <div class="w-32 h-32 mx-auto mb-8 relative">
                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full overflow-visible">
                     <path d="M50 5 L55 40 L90 45 L55 50 L50 85 L45 50 L10 45 L45 40 Z" fill="#FFB6C1" class="star-spin-outer"/>
                     <path d="M50 15 L53 42 L80 45 L53 48 L50 75 L47 48 L20 45 L47 42 Z" fill="#FEF9C3" class="star-spin-inner"/>
@@ -393,47 +347,102 @@
                 </svg>
             </div>
             <h2 id="loading-text" class="text-2xl font-bold text-slate-700 mb-2 transition-opacity duration-300">Adding good vibes... ✨</h2>
-            <p class="text-slate-500">Please wait while we prepare your gift.</p>
+<p class="text-slate-500">Please wait while we prepare your gift.</p>
         </div>
 
 
-        <!-- ==========================================
-             STEP 3: The 3D Flip Scratch Card
-             ========================================== -->
+        <!-- STEP 3: The 3D Flip Scratch Card -->
         <div id="step-3" class="step-container step-hidden w-full px-4">
-            <header class="text-center mb-6" id="scratch-header">
-                <div class="inline-flex items-center justify-center space-x-2 bg-white px-4 py-2 rounded-full shadow-soft mb-3 border border-slate-100">
-                    <span class="text-lg">🎉</span>
-                    <span class="font-semibold text-xs text-purple-500 tracking-wider uppercase">Your Digital Shagun</span>
+            <header class="text-center mb-6 relative z-30" id="scratch-header">
+                
+                <div class="relative inline-flex items-center justify-center space-x-2.5 bg-white px-5 py-2.5 rounded-full shadow-[0_4px_16px_rgba(236,72,153,0.12)] border border-pink-100 mb-3 overflow-hidden">
+                    
+                    <div class="bg-pulse absolute inset-0 bg-gradient-to-r from-pink-50 via-white to-purple-50"></div>
+
+                    <div class="happy-bounce relative z-10 flex-shrink-0 w-6 h-6">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="6" width="20" height="14" rx="2" fill="#ffe4e6" />
+                            <path d="M2 7L12 14.5L22 7" stroke="#f43f5e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="2" y="6" width="20" height="14" rx="2" stroke="#f43f5e" stroke-width="1.5" />
+                            <g transform="translate(16, 15)">
+                                <circle cx="0" cy="0" r="4.5" fill="#fef08a" stroke="#d97706" stroke-width="1"/>
+                                <circle cx="0" cy="0" r="3" fill="#facc15" stroke="#fcd34d" stroke-width="0.5"/>
+                                <text x="0" y="1.5" font-size="4.5" fill="#92400e" font-weight="bold" text-anchor="middle" font-family="Arial, sans-serif">₹</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <span class="relative z-10 font-bold text-[11.5px] tracking-[0.15em] uppercase text-shimmer pt-0.5">
+                        Your Digital Shagun
+                    </span>
+
+                    <span class="relative z-10 text-[10px] animate-pulse">✨</span>
+
                 </div>
+
                 <h2 class="text-2xl font-bold text-slate-800">Scratch the card!</h2>
             </header>
 
-            <!-- 3D Scene Wrapper -->
-            <div class="scene w-full max-w-[320px] mx-auto h-[500px]">
+            <div class="scene w-full max-w-[320px] mx-auto h-[500px] relative z-40">
                 
-                <!-- The Flipping Container -->
+                <!-- BIRD 3: Animated Bird that flips sides based on attempt! -->
+                <div id="bird-scratch" class="absolute top-[-35px] left-1/2 -ml-6 w-12 h-12 z-30 transition-transform duration-700 ease-in-out cursor-pointer pos-right" onclick="pokeBirdScratch()">
+                    
+                    <!-- Bubble stays un-mirrored because transform scaleX is now applied to SVG only! -->
+                    <div id="bubble-scratch" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-max bg-white px-3 py-1.5 rounded-2xl shadow-xl border border-pink-100 opacity-0 scale-50 origin-bottom transition-all duration-300 pointer-events-none z-50">
+                        <p id="msg-scratch" class="text-[11px] font-extrabold text-purple-500">Scratch to see! 👀</p>
+                        <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r border-pink-100 transform rotate-45"></div>
+                    </div>
+
+                    <!-- SVG ONLY flips with svg-flip-x/svg-unflip-x class -->
+                    <svg id="svg-scratch" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full drop-shadow-md transition-transform duration-700 svg-flip-x">
+                        <path d="M 40 70 L 40 85 M 50 72 L 50 85" stroke="#D9853B" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M 25 50 C 25 25, 75 25, 75 55 C 75 75, 50 80, 25 70 Z" fill="#BDE0FE" />
+                        <path d="M 35 55 C 45 70, 65 70, 70 55 C 65 65, 45 65, 35 55 Z" fill="#E2D1F9" />
+                        <g id="wing-scratch" class="wing-slow"><path d="M 35 50 C 15 50, 10 35, 35 38 Z" fill="#A2D2FF" /></g>
+                        <circle cx="62" cy="40" r="4.5" fill="#0f172a" /><circle cx="63.5" cy="38.5" r="1.5" fill="#ffffff" />
+                        <circle cx="68" cy="48" r="4" fill="#FFD1DC" opacity="0.8"/>
+                        <path d="M 72 42 L 85 45 L 72 49 Z" fill="#FACC15" />
+                    </svg>
+                </div>
+
                 <div id="card-3d-wrap" class="card-3d-wrap">
-
-                    <!-- FRONT OF CARD (The Scratch UI) -->
                     <div id="card-front" class="card-face card-front shadow-[0_15px_35px_rgba(0,0,0,0.1)] overflow-hidden">
-                        
                         <div class="scratch-hint" id="scratch-hint">👆</div>
-
-                        <!-- Bottom Layer: The Reward content (Populated via JS) -->
                         <div class="reward-content" id="reward-content"></div>
-
-                        <!-- Top Layer: The Canvas -->
                         <canvas id="scratch-pad" class="absolute inset-0 w-full h-full z-10 cursor-pointer transition-opacity duration-500"></canvas>
                     </div>
 
-                    <!-- BACK OF CARD (The Receipt Details) -->
-                    <div id="card-back" class="card-face card-back shadow-[0_15px_35px_rgba(0,0,0,0.15)] flex flex-col p-5 border border-slate-100 pointer-events-none">
+                    <div id="card-back" class="card-face card-back shadow-[0_15px_35px_rgba(0,0,0,0.15)] flex flex-col p-5 border border-slate-100 pointer-events-none relative">
+                        
+                        <!-- BIRD 4: Flies onto TOP LEFT side of the receipt card -->
+                        <div id="interactive-bird" class="absolute -top-10 -left-5 w-14 h-14 z-40 cursor-pointer hidden pointer-events-auto" onclick="pokeFinalBird()">
+                            
+                            <div id="bird-hint" class="absolute top-0 right-1 mr-1 w-max bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full text-[9px] font-bold animate-pulse shadow-sm pointer-events-none">
+                                Tap me! ✨
+                            </div>
+
+                            <div id="bubble-receipt" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-max bg-white px-3 py-2 rounded-2xl shadow-xl border border-pink-100 opacity-0 scale-50 origin-bottom transition-all duration-300 pointer-events-none z-50">
+                                <p class="text-[12px] font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+                                    <!-- Populated via JS -->
+                                </p>
+                                <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r border-pink-100 transform rotate-45"></div>
+                            </div>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full drop-shadow-md svg-unflip-x">
+                                <path d="M 40 70 L 40 85 M 50 72 L 50 85" stroke="#D9853B" stroke-width="3" stroke-linecap="round"/>
+                                <path d="M 25 50 C 25 25, 75 25, 75 55 C 75 75, 50 80, 25 70 Z" fill="#BDE0FE" />
+                                <path d="M 35 55 C 45 70, 65 70, 70 55 C 65 65, 45 65, 35 55 Z" fill="#E2D1F9" />
+                                <g id="wing-receipt" class="wing-slow"><path d="M 35 50 C 15 50, 10 35, 35 38 Z" fill="#A2D2FF" /></g>
+                                <circle cx="62" cy="40" r="4.5" fill="#0f172a" /><circle cx="63.5" cy="38.5" r="1.5" fill="#ffffff" />
+                                <circle cx="68" cy="48" r="4" fill="#FFD1DC" opacity="0.8"/>
+                                <path d="M 72 42 L 85 45 L 72 49 Z" fill="#FACC15" />
+                            </svg>
+                        </div>
+
                         <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 text-center border-b border-slate-100 pb-2">Shagun Receipt</h3>
                         
-                        <!-- Details Section -->
                         <div class="space-y-3">
-                            <!-- Detail: Date -->
                             <div class="flex items-start space-x-3">
                                 <div class="w-10 h-10 rounded-full bg-pastel-green flex items-center justify-center text-lg shadow-sm flex-shrink-0">📅</div>
                                 <div class="pt-0.5">
@@ -441,8 +450,7 @@
                                     <p class="text-[15px] font-semibold text-slate-800 mt-0.5" id="current-date">Today</p>
                                 </div>
                             </div>
-        
-                            <!-- Detail 1 -->
+            
                             <div class="flex items-start space-x-3">
                                 <div class="w-10 h-10 rounded-full bg-pastel-blue flex items-center justify-center text-lg shadow-sm flex-shrink-0">👦🏻</div>
                                 <div class="pt-0.5">
@@ -450,8 +458,7 @@
                                     <p class="text-[15px] font-semibold text-slate-800 mt-0.5">Sudhanshu Sharma</p>
                                 </div>
                             </div>
-        
-                            <!-- Detail 2 -->
+            
                             <div class="flex items-start space-x-3">
                                 <div class="w-10 h-10 rounded-full bg-pastel-pink flex items-center justify-center text-lg shadow-sm flex-shrink-0 mt-1">💌</div>
                                 <div class="pt-0.5">
@@ -461,8 +468,7 @@
                                     </p>
                                 </div>
                             </div>
-        
-                            <!-- Detail 3 -->
+            
                             <div class="flex items-start space-x-3">
                                 <div class="w-10 h-10 rounded-full bg-pastel-yellow flex items-center justify-center text-lg shadow-sm flex-shrink-0">🧾</div>
                                 <div class="pt-0.5">
@@ -471,10 +477,8 @@
                                 </div>
                             </div>
                         </div>
-        
-                        <!-- Buttons at the bottom of the card back -->
+            
                         <div class="mt-auto flex flex-col space-y-3 pt-4 border-t border-slate-100">
-                            <!-- Bound safely via pure JS function -->
                             <button onclick="triggerWhatsApp(event)" class="w-full py-3.5 rounded-xl bg-[#25D366] text-white font-bold shadow-md hover:bg-[#20bd5a] hover:scale-[1.02] active:scale-95 transition-all flex justify-center items-center space-x-2 text-[15px]">
                                 <span>Acknowledge Receipt</span> <span class="text-lg">📝</span>
                             </button>
@@ -492,250 +496,145 @@
     </main>
 
     <script>
-        // --- Dynamic URL Configuration & Creator Mode ---
-        // Allows links like: index.html?name=Rahul&date=12-march OR ?gift=base64
+        // --- Core Setup & Data ---
         const urlParams = new URLSearchParams(window.location.search);
-        
-        // 1. Setup Creator Mode Visibility
-        if (urlParams.get('create') === 'true') {
-            document.getElementById('creator-mode').classList.remove('hidden');
-        }
 
-        // 2. Setup Name and Date dynamically (Secret vs Standard)
+	// Check for Creator Mode
+if (urlParams.get('create') === 'true') {
+    document.getElementById('creator-mode').classList.remove('hidden');
+    // Optional: Stop the intro sequence from playing in the background
+    document.getElementById('step-0').style.display = 'none'; 
+}	
+
         let BIRTHDAY_PERSON = "Aditi"; 
         let dateParam = null;
 
         const secretGift = urlParams.get('gift');
         if (secretGift) {
             try {
-                // Decode the Base64 string
                 const decodedObj = JSON.parse(atob(secretGift));
                 if (decodedObj.n) BIRTHDAY_PERSON = decodedObj.n;
                 if (decodedObj.d) dateParam = decodedObj.d;
-            } catch (e) {
-                console.error("Invalid secret link");
-            }
+            } catch (e) { console.error("Invalid link"); }
         } else {
-            // Fallback to standard plain-text parameters
             BIRTHDAY_PERSON = urlParams.get('name') || "Aditi"; 
             dateParam = urlParams.get('date'); 
         }
 
         document.getElementById('message-name').innerText = BIRTHDAY_PERSON;
 
-        // 3. Setup Cinematic Date dynamically based on URL (or default to today)
         const today = new Date();
-        
         let cineDayStr = today.getDate();
         let cineMonthStr = today.toLocaleString('default', { month: 'long' });
-
         if (dateParam && dateParam.includes('-')) {
             const parts = dateParam.split('-');
-            cineDayStr = parts[0];
-            // Capitalize the month properly
-            cineMonthStr = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
+            cineDayStr = parts[0]; cineMonthStr = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
         }
 
         document.getElementById('cine-day').innerText = cineDayStr;
         document.getElementById('cine-month').innerText = cineMonthStr;
+        document.getElementById('current-date').innerText = today.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 
-        // 4. Setup current Date for the receipt (always actual today)
-        const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-        document.getElementById('current-date').innerText = today.toLocaleDateString('en-IN', dateOptions);
 
-        // --- Creator Mode Logic ---
-        function generateSecretLink() {
-            const nameInput = document.getElementById('gen-name');
-            const dateInput = document.getElementById('gen-date');
-            const nameVal = nameInput.value.trim();
-            const dateVal = dateInput.value.trim();
+        // ==============================================
+        // 🎤 WEB SPEECH API INTEGRATION (HINDI VOICE)
+        // ==============================================
+        let synth = window.speechSynthesis;
+        let hindiVoice = null;
+        
+        synth.onvoiceschanged = () => {
+            const voices = synth.getVoices();
+            hindiVoice = voices.find(v => v.lang.startsWith("hi"));
+        };
+
+        // ONLY used by the final bird on the receipt screen!
+        function speakText(text) {
+            if (synth.speaking) synth.cancel();
+            const cleanText = text.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]/g, '').trim();
+            const speech = new SpeechSynthesisUtterance(cleanText);
             
-            if (!nameVal) {
-                // Briefly flash red if they try to generate without a name
-                nameInput.classList.add('ring-2', 'ring-red-500');
-                setTimeout(() => nameInput.classList.remove('ring-2', 'ring-red-500'), 1500);
-                return;
-            }
-            
-            const dataObj = { n: nameVal };
-            if (dateVal) dataObj.d = dateVal;
-            
-            // Encode to base64
-            const encodedData = btoa(JSON.stringify(dataObj));
-            
-            // Build URL (removes the ?create=true part)
-            const baseUrl = window.location.href.split('?')[0];
-            const secretUrl = `${baseUrl}?gift=${encodedData}`;
-            
-            // Display result
-            document.getElementById('result-area').classList.remove('hidden');
-            document.getElementById('gen-result').value = secretUrl;
+            if (hindiVoice) speech.voice = hindiVoice;
+            speech.rate = 0.95;
+	    speech.pitch = 1;
+	    speech.volume = 1;
+            synth.speak(speech);
         }
 
-        function copySecretLink() {
-            const copyText = document.getElementById('gen-result');
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); /* For mobile */
-            
-            try {
-                // Fallback command suitable for iframe restrictions
-                document.execCommand("copy");
-                const btn = document.getElementById('copy-btn');
-                btn.innerText = "Copied!";
-                btn.classList.replace('bg-emerald-500', 'bg-slate-800');
-                setTimeout(() => {
-                    btn.innerText = "Copy";
-                    btn.classList.replace('bg-slate-800', 'bg-emerald-500');
-                }, 2000);
-            } catch (err) {
-                console.error("Failed to copy", err);
-            }
-        }
-
-        // --- WhatsApp Flight Animation Logic ---
-        function triggerWhatsApp(e) {
-            e.preventDefault(); 
-            
-            // Using the exact, pre-encoded URL that is confirmed to work!
-            // This bypasses the wa.me redirect and guarantees the emojis won't get corrupted.
-            // Added phone number to directly open the chat with you.
-            const targetUrl = "https://api.whatsapp.com/send?text=Hey%20Sudhanshu!%20Digital%20Lifafa%20received%2C%20scratched%2C%20and%20successfully%20deposited%20into%20my%20%E2%9D%A4%EF%B8%8F%20heart.%0ANo%20GST%20applied.%20%F0%9F%98%89";
-
-            const waOverlay = document.getElementById('wa-animation-overlay');
-            const paperPlane = document.getElementById('paper-plane');
-            const waTargetIcon = document.getElementById('wa-target-icon');
-
-            // 1. Show Overlay
-            waOverlay.classList.remove('opacity-0', 'pointer-events-none');
-
-            // 2. Flight Animation
-            setTimeout(() => {
-                paperPlane.style.transform = 'translate(220px, -10px) scale(0.6) rotate(15deg)';
-                paperPlane.style.opacity = '0'; 
-                
-                setTimeout(() => {
-                    waTargetIcon.style.transform = 'scale(1.2)';
-                }, 800);
-            }, 300);
-
-            // 3. Execute redirect and reset
-            setTimeout(() => {
-                window.open(targetUrl, '_blank');
-                
-                setTimeout(() => {
-                    waOverlay.classList.add('opacity-0', 'pointer-events-none');
-                    paperPlane.style.transform = 'translate(0px, 0px) scale(1) rotate(0deg)';
-                    paperPlane.style.opacity = '1';
-                    waTargetIcon.style.transform = 'scale(1)';
-                }, 1000);
-            }, 1800);
+        function primeSpeech() {
+            const u = new SpeechSynthesisUtterance('');
+            u.volume = 0; synth.speak(u);
         }
 
         // --- Cinematic Sequence ---
         window.addEventListener('load', () => {
-            const dayEl = document.getElementById('cine-day');
-            const monthEl = document.getElementById('cine-month');
+            const dayEl = document.getElementById('cine-day'); const monthEl = document.getElementById('cine-month');
             const subtextEl = document.getElementById('cine-subtext');
-            const step0 = document.getElementById('step-0');
-            const step1 = document.getElementById('step-1');
+            const step0 = document.getElementById('step-0'); const step1 = document.getElementById('step-1');
+
+            setTimeout(() => { dayEl.style.opacity = '1'; dayEl.style.transform = 'translateY(0)'; }, 500);
+            setTimeout(() => { monthEl.style.opacity = '1'; monthEl.style.transform = 'translateY(0)'; }, 1500);
+            setTimeout(() => { subtextEl.style.opacity = '1'; }, 2500);
 
             setTimeout(() => {
-                dayEl.style.opacity = '1';
-                dayEl.style.transform = 'translateY(0)';
-            }, 500);
-
-            setTimeout(() => {
-                monthEl.style.opacity = '1';
-                monthEl.style.transform = 'translateY(0)';
-            }, 1500);
-
-            setTimeout(() => {
-                subtextEl.style.opacity = '1';
-            }, 2500);
-
-            setTimeout(() => {
-                step0.style.transform = 'scale(1.2)';
-                step0.style.opacity = '0';
-                
+                step0.style.transform = 'scale(1.2)'; step0.style.opacity = '0';
                 setTimeout(() => {
                     step0.style.display = 'none';
                     step1.classList.replace('step-hidden', 'step-visible');
+                    
+                    // Auto Commentary: Step 1 (Gift appears)
+                    setTimeout(() => {
+                        showAutoMessage('bubble-gift', 'wing-gift', 'Tap the box! 🎁', 3000);
+                    }, 1000);
                 }, 1000); 
             }, 4500);
         });
 
-        // --- Story Mode Navigation ---
-        const loadingTexts = [
-            "Packing lots of blessings... 🧿",
-            "Adding extra sweetness... 🍬",
-            "Checking Shagun amount... 💸",
-            "Almost ready! 🚀"
-        ];
+        const loadingTexts = ["Packing lots of blessings... 🧿", "Adding extra sweetness... 🍬", "Checking Shagun amount... 💸", "Almost ready! 🚀"];
 
         function goToStep2() {
             const giftContainer = document.getElementById('gift-container');
-            const giftSvg = document.getElementById('gift-svg');
-            const giftLid = document.getElementById('gift-lid');
             const flashOverlay = document.getElementById('flash-overlay');
-
-            // Prevent multiple clicks restarting the sequence
+            const birdGift = document.getElementById('bird-gift'); 
+            
             if (giftContainer.classList.contains('is-opening')) return;
             giftContainer.classList.add('is-opening');
+            primeSpeech(); // Initialize speech engine on user click
 
-            // --- Phase 1: The Build-Up (Shake & Glow) ---
             giftContainer.classList.remove('animate-bounce-slow');
-            giftSvg.classList.remove('animate-pulse-glow');
             giftContainer.classList.add('animate-gift-shake');
+            document.getElementById('gift-svg').classList.remove('animate-pulse-glow');
+            
+            birdGift.style.transform = 'translate(150px, -200px) rotate(25deg) scale(0.6)';
+            birdGift.style.opacity = '0';
 
-            // Wait 1.2s for the shaking climax to build
             setTimeout(() => {
-                // --- Phase 2: The Climax (The Pop & Flash) ---
-                
-                // Pop the lid! Move it up and rotate it.
-                giftLid.style.transform = 'translateY(-60px) rotate(15deg)';
-                
-                // Trigger the blinding flash!
-                flashOverlay.classList.remove('opacity-0');
-                flashOverlay.classList.add('opacity-100');
+                document.getElementById('gift-lid').style.transform = 'translateY(-60px) rotate(15deg)';
+                flashOverlay.classList.remove('opacity-0'); flashOverlay.classList.add('opacity-100');
 
-                // --- Phase 3: The Magician's Trick (The Swap) ---
-                // Wait 800ms for the flash to fully blind the screen, then swap everything
                 setTimeout(() => {
-                    const step1 = document.getElementById('step-1');
-                    const step2 = document.getElementById('step-2');
-
-                    // Disable step transitions so the swap happens INSTANTLY behind the white flash
-                    step1.style.transition = 'none';
-                    step2.style.transition = 'none';
-
+                    const step1 = document.getElementById('step-1'); const step2 = document.getElementById('step-2');
+                    step1.style.transition = 'none'; step2.style.transition = 'none';
                     step1.classList.replace('step-visible', 'step-hidden');
                     step2.classList.replace('step-hidden', 'step-visible');
-
-                    // Force the browser to apply the instant swap right now
                     void step1.offsetWidth;
 
-                    // Fade the flash overlay back out to reveal the loading star
-                    flashOverlay.classList.remove('opacity-100');
-                    flashOverlay.classList.add('opacity-0');
+                    flashOverlay.classList.remove('opacity-100'); flashOverlay.classList.add('opacity-0');
 
-                    // Start the loading texts sequence from step 2
-                    startLoadingSequence();
-
-                    // Restore transitions safely after the flash is gone
+                    // Auto Commentary: Step 2 (Loading)
                     setTimeout(() => {
-                        step1.style.transition = '';
-                        step2.style.transition = '';
-                    }, 700);
-                }, 800); 
+                        document.getElementById('bird-loading').classList.remove('opacity-0');
+                        showAutoMessage('bubble-loading', 'wing-loading', 'Adding magic! ✨', 3500);
+                    }, 1500);
 
+                    startLoadingSequence();
+                    setTimeout(() => { step1.style.transition = ''; step2.style.transition = ''; }, 700);
+                }, 800); 
             }, 1200); 
         }
 
-        // Extracted Loading Sequence Logic
         function startLoadingSequence() {
             const textElement = document.getElementById('loading-text');
             let textIndex = 0;
-            
             const textInterval = setInterval(() => {
                 textElement.style.opacity = 0;
                 setTimeout(() => {
@@ -747,57 +646,76 @@
                 }, 300);
             }, 1200);
 
-            setTimeout(() => {
-                clearInterval(textInterval);
-                goToStep3();
-            }, 4500); 
+            setTimeout(() => { clearInterval(textInterval); goToStep3(); }, 4500); 
         }
 
         function goToStep3() {
             document.getElementById('step-2').classList.replace('step-visible', 'step-hidden');
             document.getElementById('step-3').classList.replace('step-hidden', 'step-visible');
-            
             updateRewardContent();
-
             setTimeout(initCanvas, 100);
-        }
-
-        // --- 3D Flip Card Logic ---
-        function flipCard(flipToBack) {
-            const cardWrap = document.getElementById('card-3d-wrap');
-            const cardFront = document.getElementById('card-front');
-            const cardBack = document.getElementById('card-back');
-            const headerText = document.querySelector('#scratch-header h2');
-            const footerText = document.getElementById('card-footer-text');
             
-            if(flipToBack) {
-                cardWrap.classList.add('is-flipped');
-                headerText.innerText = "Transaction Details";
-                footerText.innerText = "Acknowledge receipt to send a 'Thank You'!";
-                
-                cardFront.style.pointerEvents = 'none';
-                cardBack.style.pointerEvents = 'auto';
-            } else {
-                cardWrap.classList.remove('is-flipped');
-                headerText.innerText = "Wow, Infinite Joy! 🥳";
-                footerText.innerText = "Click 'View Receipt' to flip the card over.";
-                
-                cardFront.style.pointerEvents = 'auto';
-                cardBack.style.pointerEvents = 'none';
-            }
+            // Auto Commentary: Step 3 (Scratch ready)
+            setTimeout(() => {
+                showAutoMessage('bubble-scratch', 'wing-scratch', 'Scratch to see! 👀', 3000);
+            }, 500);
         }
 
-        // --- Scratch Card Logic ---
-        const canvas = document.getElementById('scratch-pad');
-        const ctx = canvas.getContext('2d');
-        const container = document.getElementById('card-front');
-        const rewardContent = document.getElementById('reward-content');
+        // ==============================================
+        // 🌟 GLOBAL BIRD INTERACTION & AUTO COMMENTARY
+        // ==============================================
+        
+        function showAutoMessage(bubbleId, wingId, text, duration = 3000) {
+            const bubble = document.getElementById(bubbleId);
+            const wing = document.getElementById(wingId);
+            const msgEl = bubble.querySelector('p');
+            
+            if(msgEl && text !== null) msgEl.innerText = text; 
+            
+            bubble.classList.remove('opacity-0', 'scale-50');
+            bubble.classList.add('opacity-100', 'scale-100');
+            
+            const isAlwaysFlapping = wing.classList.contains('always-fast');
+            if (!isAlwaysFlapping) { wing.classList.remove('wing-slow'); wing.classList.add('wing-fast'); }
+
+            setTimeout(() => {
+                bubble.classList.remove('opacity-100', 'scale-100');
+                bubble.classList.add('opacity-0', 'scale-50');
+                if (!isAlwaysFlapping) { wing.classList.remove('wing-fast'); wing.classList.add('wing-slow'); }
+            }, duration);
+        }
+
+        function pokeBirdGift() {
+            // NO VOICE HERE!
+            showAutoMessage('bubble-gift', 'wing-gift', 'Tap the box! 🎁', 3000);
+        }
+
+        function pokeBirdScratch() {
+            // NO VOICE HERE!
+            showAutoMessage('bubble-scratch', 'wing-scratch', null, 3000); 
+        }
+
+        function pokeFinalBird() {
+            // VOICE ACTIVATED HERE! (Highly personalized to match the receipt)
+            const hint = document.getElementById('bird-hint');
+            if(hint) hint.style.display = 'none'; 
+            
+            const speechText = `Happy Birthday ${BIRTHDAY_PERSON}!`;
+            speakText(speechText);
+            
+            const bubbleMsg = document.querySelector('#bubble-receipt p');
+            bubbleMsg.innerHTML = `Happy Birthday, <span class="font-bold text-slate-800">${BIRTHDAY_PERSON}</span>! 🎂`;
+            
+            showAutoMessage('bubble-receipt', 'wing-receipt', null, 4000);
+        }
+
+        // --- Scratch Card Logic & Attempt Flow ---
+        const canvas = document.getElementById('scratch-pad'); const ctx = canvas.getContext('2d');
+        const container = document.getElementById('card-front'); const rewardContent = document.getElementById('reward-content');
         const hintHand = document.getElementById('scratch-hint');
 
-        let isDrawing = false;
-        let isRevealed = false;
-        let scratchAttempt = 1; 
-        const brushRadius = 35; 
+        let isDrawing = false; let isRevealed = false;
+        let scratchAttempt = 1; const brushRadius = 35; 
 
         function updateRewardContent() {
             if (scratchAttempt === 1) {
@@ -810,48 +728,27 @@
             } else if (scratchAttempt === 2) {
                 rewardContent.innerHTML = `
                     <div class="relative w-24 h-24 mb-3 mx-auto">
-                        <!-- Animated Smoke -->
-                        <svg class="absolute -top-6 left-0 w-full h-full pointer-events-none z-0" viewBox="0 0 100 100">
-                            <path d="M 40 50 Q 30 30 45 10" stroke="#cbd5e1" stroke-width="2.5" fill="none" stroke-linecap="round" class="animate-[smoke_2s_ease-in-out_infinite] opacity-0" />
-                            <path d="M 60 55 Q 70 35 55 15" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round" class="animate-[smoke_2.5s_ease-in-out_infinite_0.5s] opacity-0" />
-                            <path d="M 50 45 Q 40 25 50 5" stroke="#e2e8f0" stroke-width="2" fill="none" stroke-linecap="round" class="animate-[smoke_3s_ease-in-out_infinite_1s] opacity-0" />
-                        </svg>
-                        
-                        <!-- Samosa Vector -->
                         <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-lg relative z-10" transform="scale(1.1) rotate(5)">
-                            <!-- Main Body (Crispy Base) -->
                             <path d="M 50 15 C 65 40 85 75 85 80 C 85 90 50 95 50 95 C 50 95 15 90 15 80 C 15 75 35 40 50 15 Z" fill="#D9853B" />
-                            <!-- Folded Highlight (Lighter center) -->
                             <path d="M 50 15 C 40 40 25 75 25 80 C 25 85 50 90 50 90 C 50 90 75 85 75 80 C 75 75 60 40 50 15 Z" fill="#ECA754" />
-                            <!-- Edge Crust Shadow -->
                             <path d="M 50 15 C 35 40 15 75 15 80 C 15 85 25 88 50 90" stroke="#B86A28" stroke-width="3" fill="none" stroke-linecap="round" />
-                            <!-- Texture details (Air bubbles on crust) -->
                             <circle cx="45" cy="75" r="1.5" fill="#B86A28" opacity="0.6" />
-                            <circle cx="60" cy="80" r="1.2" fill="#B86A28" opacity="0.5" />
-                            <circle cx="35" cy="65" r="1.5" fill="#B86A28" opacity="0.7" />
-                            <circle cx="55" cy="50" r="1" fill="#B86A28" opacity="0.5" />
-                            <circle cx="48" cy="35" r="1.2" fill="#B86A28" opacity="0.6" />
                         </svg>
                     </div>
                     <h2 class="text-xl font-bold text-slate-800 mb-2 leading-tight">One Free Samosa<br>Coupon</h2>
                     <p class="text-[13px] text-slate-500 mb-5 px-4 italic font-medium">(Valid only if you pay for the chutney)</p>
-                    <button onclick="resetScratch()" class="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-5 py-3 w-full max-w-[240px] mx-auto rounded-full font-bold shadow-[0_4px_15px_rgba(249,115,22,0.4)] hover:scale-105 active:scale-95 transition-all text-[13px] leading-tight">Yeh kaisa shagun hai?!<br>Last try! 😅</button>
+                    <button onclick="resetScratch()" class="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-5 py-3 w-full max-w-[240px] mx-auto rounded-full font-bold shadow-[0_4px_15px_rgba(249,115,22,0.4)] hover:scale-105 active:scale-95 transition-all text-[13px] leading-tight">Yeh kaisa shagun hai? 😅</button>
                 `;
             } else {
                 rewardContent.innerHTML = `
                     <div class="text-6xl mb-2 animate-bounce">🥳</div>
                     <h2 class="text-2xl font-bold text-slate-800 mb-1 leading-tight">Happy Birthday,<br><span class="text-pink-500">${BIRTHDAY_PERSON}</span>!</h2>
                     <div class="w-16 h-1 bg-gradient-to-r from-pink-300 to-purple-300 rounded-full my-3"></div>
-                    
                     <p class="text-[14px] text-slate-600 font-medium mb-4 px-2 leading-snug">May your life be as sweet as Jalebi and worries as small as a 🪡 Needle tip! 🌟</p>
-                    
                     <div class="bg-white/80 rounded-xl p-3 w-full shadow-inner-soft border border-white mb-5">
                         <p class="text-[11px] text-slate-500 uppercase tracking-wider font-bold mb-1">Shagun Claimed</p>
-                        <p class="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">
-                            ₹ Infinite Joy ✨
-                        </p>
+                        <p class="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">₹ Infinite Muskurahat</p>
                     </div>
-
                     <button onclick="flipCard(true)" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3.5 rounded-full font-bold shadow-[0_4px_15px_rgba(217,70,239,0.3)] hover:scale-[1.03] active:scale-95 transition-all text-sm flex justify-center items-center space-x-2">
                         <span>View Receipt</span> <span class="text-xl">↩️</span>
                     </button>
@@ -861,199 +758,191 @@
 
         function resetScratch() {
             const cardFront = document.getElementById('card-front');
-            
-            // 1. "Discard" animation: Throw the old ticket away to the right
+            const birdScratch = document.getElementById('bird-scratch');
+            const birdSvg = document.getElementById('svg-scratch'); // Target just the SVG to flip it!
+
             cardFront.style.transition = 'transform 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53), opacity 0.4s ease-in';
             cardFront.style.transform = 'translateX(120%) rotate(15deg) scale(0.9)';
             cardFront.style.opacity = '0';
             
-            // 2. Wait for the discard animation to finish, then swap contents
+            // FLIGHT OF THE BIRD! Switch sides AND flip only the SVG so text stays readable!
+            if(scratchAttempt === 1) {
+                birdScratch.classList.replace('pos-right', 'pos-left');
+                birdSvg.classList.remove('svg-flip-x');
+                birdSvg.classList.add('svg-unflip-x');
+            } else if(scratchAttempt === 2) {
+                birdScratch.classList.replace('pos-left', 'pos-right');
+                birdSvg.classList.remove('svg-unflip-x');
+                birdSvg.classList.add('svg-flip-x');
+            }
+            
             setTimeout(() => {
-                scratchAttempt++;
-                isRevealed = false;
-                isDrawing = false;
-                
-                // Disable transitions momentarily so the canvas resets instantly
-                canvas.style.transition = 'none';
-                rewardContent.style.transition = 'none';
-                
-                canvas.style.opacity = '1';
-                canvas.style.pointerEvents = 'auto';
+                scratchAttempt++; isRevealed = false; isDrawing = false;
+                canvas.style.transition = 'none'; rewardContent.style.transition = 'none';
+                canvas.style.opacity = '1'; canvas.style.pointerEvents = 'auto';
                 rewardContent.style.opacity = '0'; 
-                
                 hintHand.style.display = 'block';
+                updateRewardContent(); initCanvas();
                 
-                updateRewardContent();
-                initCanvas();
-                
-                // 3. "Deal" setup: Instantly move the new card off-screen to the left
-                cardFront.style.transition = 'none';
-                cardFront.style.transform = 'translateX(-120%) rotate(-15deg) scale(0.9)';
-                
-                // Force browser repaint to register the starting position off-screen
+                cardFront.style.transition = 'none'; cardFront.style.transform = 'translateX(-120%) rotate(-15deg) scale(0.9)';
                 void cardFront.offsetWidth;
                 
-                // 4. "Deal" animation: Slide the new card into the center with a bounce
                 cardFront.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease-out';
-                cardFront.style.transform = 'translateX(0) rotate(0deg) scale(1)';
-                cardFront.style.opacity = '1';
+                cardFront.style.transform = 'translateX(0) rotate(0deg) scale(1)'; cardFront.style.opacity = '1';
                 
-                // Re-enable canvas fade transitions slightly after
+                setTimeout(() => { canvas.style.transition = 'opacity 0.5s ease'; rewardContent.style.transition = 'opacity 0.3s ease'; }, 50);
+
                 setTimeout(() => {
-                    canvas.style.transition = 'opacity 0.5s ease';
-                    rewardContent.style.transition = 'opacity 0.3s ease';
-                }, 50);
-            }, 500); // Wait 500ms for the throw-away to finish
+                    let nextMsg = scratchAttempt === 2 ? 'Scratch again! 🤞' : 'Last try! 🍀';
+                    showAutoMessage('bubble-scratch', 'wing-scratch', nextMsg, 3000);
+                }, 600);
+
+            }, 500); 
+        }
+
+        function checkReveal() {
+            if (isRevealed) return;
+            const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            let transparentPixels = 0;
+            for (let i = 3; i < pixels.length; i += 4) { if (pixels[i] === 0) transparentPixels++; }
+            if ((transparentPixels / (pixels.length / 4)) * 100 > ((scratchAttempt < 3) ? 15 : 35)) revealReward();
+        }
+
+        function revealReward() {
+            isRevealed = true; canvas.style.opacity = '0'; canvas.style.pointerEvents = 'none';
+            
+            // 🌟 Exactly 2 Second Delay before the bird reacts to the scratch!
+            setTimeout(() => {
+                if (scratchAttempt === 1) {
+                    showAutoMessage('bubble-scratch', 'wing-scratch', 'Oops! Try again! 🫣', 3500);
+                } else if (scratchAttempt === 2) {
+                    showAutoMessage('bubble-scratch', 'wing-scratch', 'A Samosa?! 🤣', 3500);
+                } else if (scratchAttempt === 3) {
+                    showAutoMessage('bubble-scratch', 'wing-scratch', 'सदा खुश रहो :)', 4000);
+                }
+            }, 1000);
+
+            if (scratchAttempt === 3) {
+                triggerConfetti();
+                document.querySelector('#scratch-header h2').innerText = "Finally! ✨";
+                document.getElementById('card-footer-text').innerText = "Click 'View Receipt' to flip the card over.";
+            }
+        }
+
+        let birdInterval;
+        let finalBirdVisible = false;
+
+        function flipCard(flipToBack) {
+            const cardWrap = document.getElementById('card-3d-wrap');
+            const cardFront = document.getElementById('card-front');
+            const cardBack = document.getElementById('card-back');
+            const headerText = document.querySelector('#scratch-header h2');
+            const footerText = document.getElementById('card-footer-text');
+            
+            const birdScratch = document.getElementById('bird-scratch');
+            const interactiveBird = document.getElementById('interactive-bird');
+            
+            if(flipToBack) {
+                cardWrap.classList.add('is-flipped');
+                headerText.innerText = "Transaction Details";
+                footerText.innerText = "Acknowledge receipt to send a 'Thank You'!";
+                
+                cardFront.style.pointerEvents = 'none'; cardBack.style.pointerEvents = 'auto';
+
+                // BIRD 4 FLIES TO LEFT EDGE OF CARD
+                birdScratch.style.opacity = '0';
+                interactiveBird.classList.remove('hidden');
+                interactiveBird.classList.add('bird-fly-in-left');
+                finalBirdVisible = true;
+                birdInterval = setInterval(spawnNote, 1800);
+
+            } else {
+                cardWrap.classList.remove('is-flipped');
+                headerText.innerText = "Finally! ✨";
+                footerText.innerText = "Click 'View Receipt' to flip the card over.";
+                
+                cardFront.style.pointerEvents = 'auto'; cardBack.style.pointerEvents = 'none';
+
+                birdScratch.style.opacity = '1';
+                interactiveBird.classList.add('hidden');
+                interactiveBird.classList.remove('bird-fly-in-left');
+                finalBirdVisible = false; clearInterval(birdInterval);
+            }
         }
 
         function initCanvas() {
             const dpr = window.devicePixelRatio || 1;
-            
-            // Use offsetWidth/Height instead of getBoundingClientRect to ignore CSS scale transforms
-            const width = container.offsetWidth;
-            const height = container.offsetHeight;
-            
-            if (width === 0) {
-                setTimeout(initCanvas, 100);
-                return;
-            }
-
-            canvas.width = width * dpr;
-            canvas.height = height * dpr;
-            
-            ctx.scale(dpr, dpr);
-            
-            // Draw Cover
+            const width = container.offsetWidth; const height = container.offsetHeight;
+            if (width === 0) { setTimeout(initCanvas, 100); return; }
+            canvas.width = width * dpr; canvas.height = height * dpr; ctx.scale(dpr, dpr);
             const gradient = ctx.createLinearGradient(0, 0, width, height);
-            gradient.addColorStop(0, '#E2D1F9'); 
-            gradient.addColorStop(1, '#FFD1DC'); 
-            
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, width, height);
-
-            // Add texture
-            ctx.fillStyle = '#ffffff';
-            ctx.globalAlpha = 0.2;
-            for(let i=0; i<60; i++) {
-                ctx.beginPath();
-                ctx.arc(Math.random() * width, Math.random() * height, Math.random() * 10 + 5, 0, Math.PI*2);
-                ctx.fill();
-            }
-            
-            ctx.globalAlpha = 1.0;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            
-            ctx.font = '50px sans-serif';
-            ctx.fillText('🎁', width/2, height/2 - 25);
-            
-            ctx.fillStyle = '#475569';
-            ctx.font = 'bold 22px Poppins, sans-serif';
-            ctx.fillText('Scratch Here', width/2, height/2 + 35);
-
+            gradient.addColorStop(0, '#E2D1F9'); gradient.addColorStop(1, '#FFD1DC'); 
+            ctx.fillStyle = gradient; ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.2;
+            for(let i=0; i<60; i++) { ctx.beginPath(); ctx.arc(Math.random() * width, Math.random() * height, Math.random() * 10 + 5, 0, Math.PI*2); ctx.fill(); }
+            ctx.globalAlpha = 1.0; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.font = '50px sans-serif'; ctx.fillText('🎁', width/2, height/2 - 25);
+            ctx.fillStyle = '#475569'; ctx.font = 'bold 22px Poppins, sans-serif'; ctx.fillText('Scratch Here', width/2, height/2 + 35);
             ctx.globalCompositeOperation = 'destination-out';
         }
 
         function getCoordinates(e) {
             const rect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return {
-                x: clientX - rect.left,
-                y: clientY - rect.top
-            };
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX; const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rect.left, y: clientY - rect.top };
         }
-
-        function startDrawing(e) {
-            isDrawing = true;
-            hintHand.style.display = 'none'; 
-            rewardContent.style.opacity = '1'; 
-            scratch(e);
-        }
-
-        function stopDrawing() {
-            isDrawing = false;
-            checkReveal();
-        }
-
+        function startDrawing(e) { isDrawing = true; hintHand.style.display = 'none'; rewardContent.style.opacity = '1'; scratch(e); }
+        function stopDrawing() { isDrawing = false; checkReveal(); }
         function scratch(e) {
-            if (!isDrawing || isRevealed) return;
-            e.preventDefault(); 
-
-            const { x, y } = getCoordinates(e);
-
-            ctx.beginPath();
-            ctx.arc(x, y, brushRadius, 0, Math.PI * 2);
-            ctx.fill();
-            
-            if (e.touches && e.touches.length > 0) {
-               ctx.arc(x + 5, y + 5, brushRadius * 0.8, 0, Math.PI * 2);
-               ctx.fill();
-            }
+            if (!isDrawing || isRevealed) return; e.preventDefault(); const { x, y } = getCoordinates(e);
+            ctx.beginPath(); ctx.arc(x, y, brushRadius, 0, Math.PI * 2); ctx.fill();
+            if (e.touches && e.touches.length > 0) { ctx.arc(x + 5, y + 5, brushRadius * 0.8, 0, Math.PI * 2); ctx.fill(); }
         }
-
-        function checkReveal() {
-            if (isRevealed) return;
-
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const pixels = imageData.data;
-            let transparentPixels = 0;
-            
-            for (let i = 3; i < pixels.length; i += 4) {
-                if (pixels[i] === 0) transparentPixels++;
-            }
-
-            const totalPixels = pixels.length / 4;
-            const percentageCleared = (transparentPixels / totalPixels) * 100;
-
-            const threshold = (scratchAttempt < 3) ? 15 : 35;
-
-            if (percentageCleared > threshold) {
-                revealReward();
-            }
+        function spawnNote() {
+            if (!finalBirdVisible) return;
+            const interactiveBird = document.getElementById('interactive-bird'); const notes = ['♪', '♫', '♬']; const noteEl = document.createElement('div');
+            noteEl.innerText = notes[Math.floor(Math.random() * notes.length)]; noteEl.className = 'absolute text-purple-400 text-xs font-bold pointer-events-none z-50 music-note';
+            noteEl.style.left = '35px'; noteEl.style.top = '10px'; noteEl.style.setProperty('--tx', `${(Math.random() - 0.5) * 40}px`);
+            interactiveBird.appendChild(noteEl); setTimeout(() => noteEl.remove(), 2000);
         }
-
-        function revealReward() {
-            isRevealed = true;
-            canvas.style.opacity = '0';
-            canvas.style.pointerEvents = 'none';
-            
-            if (scratchAttempt === 3) {
-                triggerConfetti();
-                document.querySelector('#scratch-header h2').innerText = "Wow, Infinite Joy! 🥳";
-                document.getElementById('card-footer-text').innerText = "Click 'View Receipt' to flip the card over.";
-            }
-        }
-
         function triggerConfetti() {
-            const duration = 3000;
-            const end = Date.now() + duration;
-
+            const end = Date.now() + 3000;
             (function frame() {
                 confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#FFD1DC', '#BDE0FE', '#E2D1F9', '#FEF9C3'] });
                 confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#FFD1DC', '#BDE0FE', '#E2D1F9', '#FEF9C3'] });
-
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
 
-        window.addEventListener('resize', () => {
-            if(!isRevealed && !document.getElementById('step-3').classList.contains('step-hidden')) {
-                initCanvas();
-            }
-        });
+        window.addEventListener('resize', () => { if(!isRevealed && !document.getElementById('step-3').classList.contains('step-hidden')) initCanvas(); });
+        canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('mousemove', scratch); canvas.addEventListener('mouseup', stopDrawing); canvas.addEventListener('mouseleave', stopDrawing);
+        canvas.addEventListener('touchstart', startDrawing, { passive: false }); canvas.addEventListener('touchmove', scratch, { passive: false }); canvas.addEventListener('touchend', stopDrawing); canvas.addEventListener('touchcancel', stopDrawing);
 
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', scratch);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mouseleave', stopDrawing);
-
-        canvas.addEventListener('touchstart', startDrawing, { passive: false });
-        canvas.addEventListener('touchmove', scratch, { passive: false });
-        canvas.addEventListener('touchend', stopDrawing);
-        canvas.addEventListener('touchcancel', stopDrawing);
-
+        // Link Generator and WhatsApp
+        function generateSecretLink() {
+            const nameInput = document.getElementById('gen-name'); const dateInput = document.getElementById('gen-date');
+            const nameVal = nameInput.value.trim(); const dateVal = dateInput.value.trim();
+            if (!nameVal) { nameInput.classList.add('ring-2', 'ring-red-500'); setTimeout(() => nameInput.classList.remove('ring-2', 'ring-red-500'), 1500); return; }
+            const dataObj = { n: nameVal }; if (dateVal) dataObj.d = dateVal;
+            const encodedData = btoa(JSON.stringify(dataObj)); const baseUrl = window.location.href.split('?')[0];
+            document.getElementById('result-area').classList.remove('hidden'); document.getElementById('gen-result').value = `${baseUrl}?gift=${encodedData}`;
+        }
+        function copySecretLink() {
+            const copyText = document.getElementById('gen-result'); copyText.select(); copyText.setSelectionRange(0, 99999);
+            try { document.execCommand("copy"); const btn = document.getElementById('copy-btn'); btn.innerText = "Copied!"; btn.classList.replace('bg-emerald-500', 'bg-slate-800'); setTimeout(() => { btn.innerText = "Copy"; btn.classList.replace('bg-slate-800', 'bg-emerald-500'); }, 2000); } catch (err) {}
+        }
+        function triggerWhatsApp(e) {
+            e.preventDefault(); const waOverlay = document.getElementById('wa-animation-overlay'); const paperPlane = document.getElementById('paper-plane'); const waTargetIcon = document.getElementById('wa-target-icon');
+            waOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                paperPlane.style.transform = 'translate(220px, -10px) scale(0.6) rotate(15deg)'; paperPlane.style.opacity = '0'; 
+                setTimeout(() => { waTargetIcon.style.transform = 'scale(1.2)'; }, 800);
+            }, 300);
+            setTimeout(() => {
+                window.open("https://api.whatsapp.com/send?text=Hey%20Sudhanshu!%20Digital%20Lifafa%20received%2C%20scratched%2C%20and%20successfully%20deposited%20into%20my%20%E2%9D%A4%EF%B8%8F%20heart.%0ANo%20GST%20applied.%20%F0%9F%98%89", '_blank');
+                setTimeout(() => { waOverlay.classList.add('opacity-0', 'pointer-events-none'); paperPlane.style.transform = 'translate(0px, 0px) scale(1) rotate(0deg)'; paperPlane.style.opacity = '1'; waTargetIcon.style.transform = 'scale(1)'; }, 1000);
+            }, 1800);
+        }
     </script>
 </body>
 </html>
-
